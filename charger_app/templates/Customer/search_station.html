@@ -1,0 +1,318 @@
+{% extends "Customer/header.html" %}
+{% block content %}
+{% load static %}
+<div class="banner-bottom agile" id="auto">
+	<div class="container">
+		<h2 class="tittle-one wow fadeInDown">SEARCH EV  CHARGING STATION</h2>
+		<div class="bottom-grids agileinfo">
+			{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+			  <div class="alert alert-success"> {{message }}</div>
+				{% endfor %}
+			</ul>
+			{% endif %}
+			<div class="col-sm-3" style="min-height:500px;">
+				<h5 class="tittle-one wow fadeInDown">Search By Place</h5>
+				<form action="/display_station/1" method="post" id="myform1" enctype="multipart/form-data">
+					{% csrf_token %}
+				<div class="form-group"> <label for="">State</label>
+					<select name="state" id="state" class="form-control">
+					  <option value="">--Select--</option>
+					  {% for k in data %}
+					  <option value="{{k.state_id}}">{{k.state}}</option>
+					  {% endfor %}
+					</select>
+				  </div>
+				  <div class="form-group"> <label for="">District</label>
+					<select name="district" id="district" class="form-control">
+					  <option value="">--Select--</option>
+	
+					</select>
+				  </div>
+				  <div class="form-group"> <label for="">Place</label>
+					<select name="place" id="place" class="form-control">
+					  <option value="">--Select--</option>
+	
+					</select>
+				  </div>
+				  <button type="submit" class="btn btn-info">Search</button>
+	</form>
+			</div>
+			<div class="col-sm-3" style="min-height:500px;">
+				<h5 class="tittle-one wow fadeInDown">Search By Your Geo-Location</h5>
+				<form action="/display_station/2" method="post" id="myform2" enctype="multipart/form-data">
+				  {% csrf_token %}
+				  <input type="button" style="margin: 5px;" class="btn btn-info" value="Click Hear to Get your Geo-Location "  onclick="getLocation()">
+	
+				  <div class="form-group">
+					<label>Latitude</label>
+					<input class="form-control" readonly type="text" name="user_latitude" id="user_latitude">
+				  </div>
+				  <div class="form-group">
+					<label>Longitude</label>
+					<input class="form-control" readonly type="text" name="user_longitude" id="user_longitude">
+				  </div>
+				  
+				  <button type="submit" class="btn btn-info">Search</button>
+
+				  <script>
+				
+					var user_latitude = document.getElementById("user_latitude");
+					var user_longitude = document.getElementById("user_longitude");
+					function getLocation() {
+					  if (navigator.geolocation) {
+						navigator.geolocation.getCurrentPosition(showPosition);
+					  } else { 
+						alert("Geolocation is not supported by this browser.")
+					  }
+					}
+					
+					function showPosition(position) {
+						user_latitude.value = position.coords.latitude;
+						user_longitude.value =  position.coords.longitude;
+					}
+					</script>
+				</form>
+			  </div>
+			  <div class="col-sm-6" style="margin-top: 10px;">
+				<h5 class="tittle-one wow fadeInDown">Search By Geo Location</h5>
+				<form action="/display_station/3" method="post" id="myform3" enctype="multipart/form-data">
+				  {% csrf_token %}
+				<div class="form-group">
+					<label>Longitude</label>
+					<input class="form-control" type="text" readonly id="longitude" name="longitude">
+				  </div>
+				  <div class="form-group">
+					<label>Latitude</label>
+					<input class="form-control" type="text" readonly id="latitude" name="latitude">
+				  </div>
+				  <button type="submit" class="btn btn-info">Search</button>
+				  </form>
+				<div id="map"></div>
+	
+				<!-- 
+	The `defer` attribute causes the callback to execute after the full HTML
+	document has been parsed. For non-blocking uses, avoiding race conditions,
+	and consistent behavior across browsers, consider loading using Promises.
+	See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+	for more information.
+	-->
+				<script
+				  src="https://cdn.jsdelivr.net/gh/somanchiu/Keyless-Google-Maps-API@v6.5/mapsJavaScriptAPI.js"></script>
+				<script>
+				  function initMap() {
+					let latText = document.getElementById("latitude");
+					let longText = document.getElementById("longitude");
+					const myLatlng = { lat: 9.264758, lng: 76.787041 };
+					const map = new google.maps.Map(document.getElementById("map"), {
+					  zoom: 16,
+					  center: myLatlng,
+					});
+					// Create the initial InfoWindow.
+					// let infoWindow = new google.maps.InfoWindow({
+					// content: "Click the map to get Lat/Lng!",
+					// position: myLatlng,
+					// });
+	
+					// infoWindow.open(map);
+					// Configure the click listener.
+					// map.addListener("click", (mapsMouseEvent) => {
+					// // Close the current InfoWindow.
+					// alert(mapsMouseEvent.latLng())
+					// infoWindow.close();
+					// // Create a new InfoWindow.
+					// infoWindow = new google.maps.InfoWindow({
+					// position: mapsMouseEvent.latLng,
+					// });
+					// infoWindow.setContent(
+					// JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+					// );
+					// infoWindow.open(map);
+	
+					// });
+					google.maps.event.addListener(map, 'click', function (event) {
+					  var lat = event.latLng.lat();
+					  var lng = event.latLng.lng();
+					  // alert("Lat=" + lat + "; Lng=" + lng);
+					  latText.value = lat;
+					  longText.value = lng;
+					  // placeNewPostMarker(event.latLng);
+					  // newpost.setContent('<a href="/posts/add?lat=' + lat + '&lng=' + lng + '">Add New</a>');
+					  // newpost.open(map,newpostmarker);
+					});
+				  }
+	
+				  window.initMap = initMap;
+				</script>
+				<style>
+				  #map {
+					height: 500px;
+					width: 500px;
+				  }
+				</style>
+			  </div>
+			  <script src="{% static 'assets/Validation/jquery-1.11.1.min.js' %}"></script>
+			  <script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+			  <script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+			  <script>
+				(function ($, W, D) {
+				  var JQUERY4U = {};
+				  JQUERY4U.UTIL =
+				  {
+					setupFormValidation: function () {
+					  $.validator.addMethod(
+						"regex",
+						function (value, element, regexp) {
+						  var check = false;
+						  return this.optional(element) || regexp.test(value);
+						},
+						"Not a valid Input."
+					  );
+	
+					  //form validation rules
+					  $("#myform1").validate({
+						rules: {
+						  state: {
+							required: true,
+	
+	
+						  },
+						  place: {
+							required: true,
+						
+	
+						  },
+						  district: {
+							required: true,
+	
+	
+						  },
+						
+						  
+	
+						},
+						messages: {
+	
+	
+	
+						},
+						submitHandler: function (form) {
+						  form.submit();
+						}
+					  });
+					  $("#myform2").validate({
+						rules: {
+							user_longitude: {
+							required: true,
+	
+	
+						  },
+						  user_latitude: {
+							required: true,
+	
+	
+						  },  
+						  
+	
+						},
+						messages: {
+	
+	
+	
+						},
+						submitHandler: function (form) {
+						  form.submit();
+						}
+					  });
+					  $("#myform3").validate({
+						rules: {
+						  longitude: {
+							required: true,
+	
+	
+						  },
+						  latitude: {
+							required: true,
+	
+	
+						  },  
+						  
+	
+						},
+						messages: {
+	
+	
+	
+						},
+						submitHandler: function (form) {
+						  form.submit();
+						}
+					  });
+					}
+				  }
+				  //when the dom has loaded setup form validation rules
+				  $(D).ready(function ($) {
+					JQUERY4U.UTIL.setupFormValidation();
+				  });
+				})(jQuery, window, document);
+			  </script>
+			  <script>
+				$("#state").change(function () {
+				  var state = $(this).val();
+	
+				  $.ajax({
+	
+					url: '/display_district/',
+					data: {
+					  'state_id': state
+					},
+					dataType: 'json',
+					success: function (data) {
+	
+	
+					  let html_data = '<option value="">--Select--</option>';
+					  data.forEach(function (data) {
+						html_data += `<option value="${data.district_id}">${data.district}</option>`
+					  });
+					  $("#district").html(html_data);
+	
+	
+	
+					}
+				  });
+	
+				});</script>
+				 <script>
+					$("#district").change(function () {
+					  var state = $(this).val();
+		
+					  $.ajax({
+		
+						url: '/display_place/',
+						data: {
+						  'district_id': state
+						},
+						dataType: 'json',
+						success: function (data) {
+		
+		
+						  let html_data = '<option value="">--Select--</option>';
+						  data.forEach(function (data) {
+							html_data += `<option value="${data.place}">${data.place}</option>`
+						  });
+						  $("#place").html(html_data);
+		
+		
+		
+						}
+					  });
+		
+					});</script>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+<!-- //About -->
+

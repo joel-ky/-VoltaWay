@@ -1,0 +1,25 @@
+{% extends "Customer/header.html" %}
+{% block content %}
+{% load static %}
+<div class="banner-bottom agile" id="auto">
+	<div class="container">
+		<h2 class="tittle-one wow fadeInDown">CUSTOMER HOME PAGE</h2>
+		<div class="bottom-grids agileinfo">
+			<div class="col-md-3"></div>
+			<div class="col-md-6 bottom-grid fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+                {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                <div class="alert alert-success"> {{message }}</div>
+                {% endfor %}
+                </ul>
+                {% endif %}
+			</div>
+			<div class="col-md-3"></div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+<!-- //About -->
+

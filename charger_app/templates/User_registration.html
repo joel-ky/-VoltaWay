@@ -1,0 +1,459 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Electric Vehicle Charge Locator</title>
+
+<!-- Meta tag Keywords -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Auto Car Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--// Meta tag Keywords -->
+
+<!-- css files -->
+
+<link href="{% static 'assets/css/mislider.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'assets/css/mislider-custom.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" /> <!-- Bootstrap-Core-CSS -->
+<link href="{% static 'assets/css/style.css' %}" rel="stylesheet" type="text/css" media="all" /> <!-- Style-CSS --> 
+<link rel="stylesheet" href="{% static 'assets/css/font-awesome.css' %}"> <!-- Font-Awesome-Icons-CSS -->
+<!-- //css files -->
+
+<!-- online-fonts -->
+<link href="//fonts.googleapis.com/css?family=Jockey+One&amp;subset=latin-ext" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Niconne&amp;subset=latin-ext" rel="stylesheet">
+<!-- //online-fonts -->
+</head>
+	
+<body>
+	<div class="banner-2 wthree">
+		<div class="container">
+			<div class="banner_top">
+				<div class="logo wow fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+					<h1><a href="/index/"><span>V</span>olta Way</a></h1>
+				</div>
+				<div class="banner_top_right wow fadeInRight animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInRight;">
+					<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav cl-effect-14">
+						<li><a href="/index/">Home</a></li>
+						<li><a href="/User_registration/"  class="active">User Registration</a></li>
+						<li><a href="/sign_in/">Login</a></li>
+						
+					</ul>
+				</div><!-- /.navbar-collapse -->	
+				
+			</nav>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<!-- banner -->
+		
+		</div>
+	</div>
+<div class="banner-bottom agile" id="auto">
+	<div class="container">
+		<h2 class="tittle-one wow fadeInDown">Registration</h2>
+		<div class="bottom-grids agileinfo">
+			<div class="col-md-3"></div>
+			<div class="col-md-6 bottom-grid fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+				{% if messages %}
+				<ul class="messages">
+					{% for message in messages %}
+				  <div class="alert alert-success"> {{message }}</div>
+					{% endfor %}
+				</ul>
+				{% endif %}
+				<form  action="/customer_action/"  method="post" id="myform2">
+					{% csrf_token %}
+					<div class="form-group">
+						<input type="text" class="form-control"  placeholder="Customer Name" name="customer_name"  >
+					</div>
+					
+					<div class="form-group">
+						<input type="email" class="form-control"  placeholder="E-mail" name="Email"  >
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control"  placeholder="phone number" name="phone"  >
+					</div>
+					<div class="form-group">
+						<textarea name="address" class="form-control"  placeholder="Address"></textarea>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control"  placeholder="Place" name="place"  >
+					</div>
+					<div class="form-group">
+						<input name="username" class="form-control" placeholder="Username"   id="id_username" type="text" class="form-control">
+						<span id="cb"></span>
+					</div>
+
+					<div class="form-group">
+						<input type="password" class="form-control"  placeholder="Password" name="password" id="password"  >
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control"  placeholder="Confirm Password" name="cpassword" id="password2"  >
+					</div>
+				<div class="">
+					<input type="submit" class="btn btn-info" value="Create account">
+				</div>
+			</form>
+			<script>
+				$("#id_username").keyup(function () {
+					$('#uname').val("");
+				   var username = $(this).val();
+				   var count = username.length;
+				   $('#cb').html("");
+				   if(count>4)
+				  {
+				   $.ajax({
+						 url: '/check_username/',
+						 data: {
+							 'username': username
+						 },
+						 dataType: 'json',
+						 success: function (data) {
+							  if (data.username_exists) {
+		
+		
+								$('#cb').css('color','red');
+							$('#cb').html(data.error);
+		
+							  }
+							  else{
+		
+								$('#cb').css('color','green');
+							$('#cb').html(data.success);
+							$('#uname').val(1);
+							  }
+						 }
+				   });
+				}
+				});
+			 </script>
+			<script src="{% static 'assets/Validation/jquery-1.11.1.min.js' %}"></script>
+			<script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+			<script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+		<script>
+		(function ($, W, D)
+		{
+		var JQUERY4U = {};
+		JQUERY4U.UTIL =
+		{
+		setupFormValidation: function ()
+		{
+		$.validator.addMethod(
+		"regex",
+		function(value, element, regexp) {
+		var check = false;
+		return this.optional(element) || regexp.test(value);
+		},
+		"Not a valid Input."
+		);
+		
+		//form validation rules
+		$("#myform").validate({
+		ignore: [],
+		rules: {
+					username: {
+					  required: true,
+		
+		
+					},
+					password: {
+					  required: true,
+		
+		
+					},
+		
+					},
+		
+				  messages: {
+		
+		
+		},
+		submitHandler: function (form) {
+		form.submit();
+		}
+		});
+		
+		
+		//form validation rules
+		$("#myform2").validate({
+		ignore: [],
+		rules: {
+			customer_name: {
+					  required: true,
+					  regex : /^[A-Za-z ]+$/,
+					  minlength: 3,
+		
+					},
+		
+					company_type: {
+					  required: true,
+					  regex : /^[A-Za-z ]+$/,
+					  minlength: 3,
+		
+					},
+		
+					phone: {
+						required: true,
+						digits:true,
+						   minlength: 10,
+						   maxlength: 10,
+						   regex : /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
+					},
+					address: {
+					  required: true,
+					  minlength: 3,
+		
+					},
+					place: {
+					  required: true,
+					  minlength: 3,
+					  regex : /^[A-Za-z ]+$/,
+					},
+		
+		
+					Email: {
+					 required: true,
+					 regex :  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+		
+					},
+					username: {
+						required: true,
+						regex : /^[A-Za-z0-9@]+$/,
+						minlength: 5,
+						maxlength: 15,
+		
+					},
+					password: {
+						required: true,
+						 regex : /^[A-Za-z0-9@#*]+$/,
+						 minlength: 5,
+						maxlength: 15,
+		
+					},
+					cpassword: {
+						required: true,
+						   regex : /^[A-Za-z0-9@#*]+$/,
+						   minlength: 5,
+						  maxlength: 15,
+					  equalTo: "#password"
+		
+					},
+					uname: {
+						required: true,
+		
+		
+					},
+				  },
+				  messages: {
+		
+					phone: "Please Enter Valid 10 digit Phone Number - Starting from 6, 7 or 8 or 9",
+		
+		username: "Please Enter Valid User Name(5-15 digit alphanumeric username",
+		password: "Please Enter Valid Password Name(5-15 digit alphanumeric  password  and @#* also allowed",
+		   cpassword: "Please Enter Valid Password Name(5-15 digit alphanumeric confirm password and same as above password and @#* also allowed",
+		   uname:"User name is not available",
+		},
+		submitHandler: function (form) {
+		form.submit();
+		}
+		});
+		}
+		}
+		//when the dom has loaded setup form validation rules
+		$(D).ready(function ($) {
+		JQUERY4U.UTIL.setupFormValidation();
+		});
+		})(jQuery, window, document);
+		</script>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<!-- //About -->
+
+
+
+<!-- Footer -->
+<div class="footer w3ls">
+	<div class="container">
+		<div class="footer-main">
+			<div class="footer-top">
+				<div class="col-md-4 ftr-grid fg1">
+					<h4><a href="index.html">Auto Car</a></h4>
+					<p>Lorem ipsum dolor sit amet, consectetur adip magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+					<a href="about.html">Learn More</a>
+				</div>
+				<div class="col-md-4 ftr-grid fg2">
+					<h3>Our Address</h3>
+					<div class="ftr-address">
+						<div class="local">
+							<i class="fa fa-map-marker" aria-hidden="true"></i>
+						</div>
+						<div class="ftr-text">
+							<p>Lorem ipsum dolor sit amet.</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="ftr-address">
+						<div class="local">
+							<i class="fa fa-phone" aria-hidden="true"></i>
+						</div>
+						<div class="ftr-text">
+							<p>+1 (512) 154 8176</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="ftr-address">
+						<div class="local">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</div>
+						<div class="ftr-text">
+							<p><a href="mailto:info@example.com">info@example.com</a></p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+				<div class="col-md-4 ftr-grid fg2">
+					<h3>Keep In Touch With Us</h3>
+					<div class="right-w3l">
+						<ul class="top-links">
+							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+						</ul>
+					</div>
+					<div class="right-w3-2">
+						<ul class="text-w3">
+							<li><a href="#">Facebook</a></li>
+							<li><a href="#">Twitter</a></li>
+							<li><a href="#">Google</a></li>
+						</ul>
+					</div>
+				</div>
+			   <div class="clearfix"> </div>
+			</div>
+			<div class="copyrights">
+				<p>&copy; Projet  <a href="#" target="_blank">Volta Way</a> </p>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<!-- Footer -->	
+
+
+<!-- js-scripts -->						
+		<!-- js -->
+			<script type="text/javascript" src="{% static 'assets/js/jquery-2.1.4.min.js' %}"></script>
+			<script type="text/javascript" src="{% static 'assets/js/bootstrap.js' %}"></script> <!-- Necessary-JavaScript-File-For-Bootstrap --> 
+		<!-- //js -->
+		
+		<script src="{% static 'assets/js/responsiveslides.min.js' %}"></script>
+							<script>
+								// You can also use "$(window).load(function() {"
+								$(function () {
+								  // Slideshow 4
+								  $("#slider3").responsiveSlides({
+									auto: true,
+									pager:true,
+									nav:false,
+									speed: 500,
+									namespace: "callbacks",
+									before: function () {
+									  $('.events').append("<li>before event fired.</li>");
+									},
+									after: function () {
+									  $('.events').append("<li>after event fired.</li>");
+									}
+								  });
+							
+								});
+							 </script>
+		
+							
+								
+		<!-- Starts-Number-Scroller-Animation-JavaScript -->
+				<script type="text/javascript" src="{% static 'assets/js/numscroller-1.0.js' %}"></script>
+		<!-- //Starts-Number-Scroller-Animation-JavaScript -->
+		
+		
+		
+			<!-- particles-JavaScript -->
+			<script src="{% static 'assets/js/particles.min.js' %}"></script>
+				<script>
+				  window.onload = function() {
+					Particles.init({
+					  selector: '#myCanvas',
+					  color: '#b3b3b3',
+					  connectParticles: true,
+					  minDistance: 100
+					});
+				  };
+				</script>
+	
+		<!-- //particles-JavaScript -->
+		
+		<!-- team-plugin -->
+			<script src="{% static 'assets/js/mislider.js' %}" type="text/javascript"></script>
+				<script type="text/javascript">
+						jQuery(function ($) {
+							var slider = $('.mis-stage').miSlider({
+								//  The height of the stage in px. Options: false or positive integer. false = height is calculated using maximum slide heights. Default: false
+								stageHeight: 380,
+								//  Number of slides visible at one time. Options: false or positive integer. false = Fit as many as possible.  Default: 1
+								slidesOnStage: false,
+								//  The location of the current slide on the stage. Options: 'left', 'right', 'center'. Defualt: 'left'
+								slidePosition: 'center',
+								//  The slide to start on. Options: 'beg', 'mid', 'end' or slide number starting at 1 - '1','2','3', etc. Defualt: 'beg'
+								slideStart: 'mid',
+								//  The relative percentage scaling factor of the current slide - other slides are scaled down. Options: positive number 100 or higher. 100 = No scaling. Defualt: 100
+								slideScaling: 150,
+								//  The vertical offset of the slide center as a percentage of slide height. Options:  positive or negative number. Neg value = up. Pos value = down. 0 = No offset. Default: 0
+								offsetV: -5,
+								//  Center slide contents vertically - Boolean. Default: false
+								centerV: true,
+								//  Opacity of the prev and next button navigation when not transitioning. Options: Number between 0 and 1. 0 (transparent) - 1 (opaque). Default: .5
+								navButtonsOpacity: 1,
+							});
+						});
+					</script>
+		<!-- //team-plugin -->
+
+		<!-- start-smoth-scrolling -->
+			<script type="text/javascript" src="{% static 'assets/js/move-top.js' %}"></script>
+			<script type="text/javascript" src="{% static 'assets/js/easing.js' %}"></script>
+			<script type="text/javascript">
+				jQuery(document).ready(function($) {
+					$(".scroll").click(function(event){		
+						event.preventDefault();
+						$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+					});
+				});
+			</script>
+		<!-- start-smoth-scrolling -->
+
+
+<!-- //js-scripts -->
+</body>
+</html>

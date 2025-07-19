@@ -1,0 +1,114 @@
+{% extends "Customer/header.html" %}
+{% block content %}
+{% load static %}
+<div class="banner-bottom agile" id="auto">
+	<div class="container">
+		<h2 class="tittle-one wow fadeInDown" > BOOKING</h2>
+		<div class="bottom-grids agileinfo">
+
+        
+
+            <div style="margin:auto; width: 50%;">
+               
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                  <div class="alert alert-success"> {{message }}</div>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <form method="post" action="/save_book/{{id}}" method="post" id="myform" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label> Start Date</label>
+ <input name="start_date" id="start_date" type="text" class="form-control">
+                   </div>
+                   <div class="form-group">
+                    <label> Start Time</label>
+                    <input name="start_time" type="time" class="form-control">
+               </div>
+               <div class="form-group">
+                <label> End Time</label>
+                <input name="end_time" type="time" class="form-control">
+           </div>
+              
+              <div class="col-sm-12"  style="text-align: center;"><div>
+                <input type="submit" value="Submit" class="btn btn-info">
+      </div></div>
+           </form>
+  <link href="{% static 'assets/jquery/jquery-ui.css' %}" rel="stylesheet" type="text/css" media="all" /> <!-- Style-CSS --> 
+          
+<script type="text/javascript" src="{% static 'assets/jquery/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/jquery/jquery-ui.js' %}"></script>
+           <script>
+           $( function() {
+             $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd', minDate:'0' });
+           } );
+           </script>
+         
+                               <script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+                               <script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+       <script>
+           (function ($, W, D)
+         {
+         var JQUERY4U = {};
+         JQUERY4U.UTIL =
+             {
+                 setupFormValidation: function ()
+                 {
+                   $.validator.addMethod(
+           "regex",
+           function(value, element, regexp) {
+               var check = false;
+               return this.optional(element) || regexp.test(value);
+           },
+           "Not a valid Input."
+       );
+
+                 //form validation rules
+                 $("#myform").validate({
+                   rules: {
+
+                    date: {
+
+                                           required: true,
+                                        
+                                       },
+                                       start_time: {
+
+                                           required: true,
+                                        
+
+                                       },
+                                       end_time: {
+
+required: true,
+
+
+},
+                                     },
+                                     messages: {
+
+
+
+                     },
+                     submitHandler: function (form) {
+                     form.submit();
+                     }
+                 });
+               }
+             }
+         //when the dom has loaded setup form validation rules
+         $(D).ready(function ($) {
+             JQUERY4U.UTIL.setupFormValidation();
+         });
+         })(jQuery, window, document);
+       </script>
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+<!-- //About -->
+

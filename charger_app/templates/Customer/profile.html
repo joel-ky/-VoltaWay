@@ -1,0 +1,167 @@
+{% extends "Customer/header.html" %}
+{% block content %}
+{% load static %}
+<div class="banner-bottom agile" id="auto">
+	<div class="container">
+		<h2 class="tittle-one wow fadeInDown"> Profile</h2>
+		<div class="bottom-grids agileinfo">
+
+            <div class="col-sm-6">
+
+                <table class="table table-stripped">
+                   <tr><th>Name</th><td>{{data.customer_name}}</td></tr>
+                   <tr><th>Email</th><td>{{data.Email}}</td></tr>
+                   <tr><th>Address</th><td>{{data.Address}}</td></tr>
+                   <tr><th>Phone Number</th><td>{{data.phone_number}}</td></tr>
+                   <tr><th>Place</th><td>{{data.place}}</td></tr>
+                </table>
+               </div>
+
+            <div class="col-sm-6">
+               
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                  <div class="alert alert-success"> {{message }}</div>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+              
+                <form  action="/save_profile/"  method="post" id="myform2">
+					{% csrf_token %}
+					<div class="form-group">
+						<input type="text" class="form-control"  placeholder="Customer Name" name="customer_name"  value="{{data.customer_name}}" >
+					</div>
+					
+					<div class="form-group">
+						<input type="email" class="form-control"  placeholder="E-mail" name="Email" value="{{data.Email}}"  >
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control"  placeholder="phone number" name="phone"  value="{{data.phone_number}}" >
+					</div>
+					<div class="form-group">
+						<textarea name="address" class="form-control"  placeholder="Address">{{data.Address}}</textarea>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control"  placeholder="Place" name="place"   value="{{data.place}}" >
+					</div>
+					
+				<div class="">
+					<input type="submit" class="btn btn-info" value="Save">
+				</div>
+			</form>
+		
+			<script src="{% static 'assets/Validation/jquery-1.11.1.min.js' %}"></script>
+			<script src="{% static 'assets/Validation/jquery_validate.js' %}"></script>
+			<script src="{% static 'assets/Validation/additional_validate.js' %}"></script>
+		<script>
+		(function ($, W, D)
+		{
+		var JQUERY4U = {};
+		JQUERY4U.UTIL =
+		{
+		setupFormValidation: function ()
+		{
+		$.validator.addMethod(
+		"regex",
+		function(value, element, regexp) {
+		var check = false;
+		return this.optional(element) || regexp.test(value);
+		},
+		"Not a valid Input."
+		);
+		
+		
+		
+		//form validation rules
+		$("#myform2").validate({
+		ignore: [],
+		rules: {
+			customer_name: {
+					  required: true,
+					  regex : /^[A-Za-z ]+$/,
+					  minlength: 3,
+		
+					},
+		
+					
+					phone: {
+						required: true,
+						digits:true,
+						   minlength: 10,
+						   maxlength: 10,
+						   regex : /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
+					},
+					address: {
+					  required: true,
+					  minlength: 3,
+		
+					},
+					place: {
+					  required: true,
+					  minlength: 3,
+					  regex : /^[A-Za-z ]+$/,
+					},
+		
+		
+					Email: {
+					 required: true,
+					 regex :  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+		
+					},
+					username: {
+						required: true,
+						regex : /^[A-Za-z0-9@]+$/,
+						minlength: 5,
+						maxlength: 15,
+		
+					},
+					password: {
+						required: true,
+						 regex : /^[A-Za-z0-9@#*]+$/,
+						 minlength: 5,
+						maxlength: 15,
+		
+					},
+					cpassword: {
+						required: true,
+						   regex : /^[A-Za-z0-9@#*]+$/,
+						   minlength: 5,
+						  maxlength: 15,
+					  equalTo: "#password"
+		
+					},
+					uname: {
+						required: true,
+		
+		
+					},
+				  },
+				  messages: {
+		
+					phone: "Please Enter Valid 10 digit Phone Number - Starting from 6, 7 or 8 or 9",
+		
+		username: "Please Enter Valid User Name(5-15 digit alphanumeric username",
+		password: "Please Enter Valid Password Name(5-15 digit alphanumeric  password  and @#* also allowed",
+		   cpassword: "Please Enter Valid Password Name(5-15 digit alphanumeric confirm password and same as above password and @#* also allowed",
+		   uname:"User name is not available",
+		},
+		submitHandler: function (form) {
+		form.submit();
+		}
+		});
+		}
+		}
+		//when the dom has loaded setup form validation rules
+		$(D).ready(function ($) {
+		JQUERY4U.UTIL.setupFormValidation();
+		});
+		})(jQuery, window, document);
+		</script>
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+<!-- //About -->
+
